@@ -8,6 +8,7 @@ export default class Ball {
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
     this.direction = 1;
+    this.ping = new Audio('public/sounds/pong-03.wav');
 
     this.reset();
   }
@@ -67,6 +68,7 @@ export default class Ball {
         this.y <= bottomY
       ) {
         this.vx = -this.vx;
+        this.ping.play();
       }
 
     } else {
@@ -84,6 +86,7 @@ export default class Ball {
 
       ) {
         this.vx = -this.vx;
+        this.ping.play();
       }
 
     }
