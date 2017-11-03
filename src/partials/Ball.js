@@ -1,4 +1,6 @@
-import {SVG_NS} from '../settings'
+import {
+  SVG_NS
+} from '../settings'
 
 export default class Ball {
   constructor(radius, boardWidth, boardHeight) {
@@ -17,37 +19,52 @@ export default class Ball {
     this.vy = 0;
 
     while (this.vy === 0) {
-      this.vy = Math.floor(Math.random() * 10 - 5); 
+      this.vy = Math.floor(Math.random() * 10 - 5);
     }
 
-  //generates random position/vector for ball.
+    //generates random position/vector for ball.
 
     this.vx = this.direction * (6 - Math.abs(this.vy));
   }
 
-  wallCollision() {
+  wallCollision(paddleOne, paddleTwo) {
     const hitLeft = this.x - this.radius <= 0;
     const hitRight = this.x + this.radius >= this.boardWidth;
     const hitTop = this.y - this.radius <= 0;
     const hitBottom = this.y + this.radius >= this.boardHeight;
 
-    if (hitLeft || hitRight) {
-      this.vx = -this.vx;
+    // if (hitLeft || hitRight) {
+    //   this.vx = -this.vx;
+    // } else if (hitTop || hitBottom) {
+    //   this.vy = -this.vy;
+    // }
+
+    if (hitLeft) {
+      this.direction = 1;
+      this.goal(paddleTwo);
+    } else if (hitRight) {
+      this.direction = -1;
+      this.goal(paddleOne);
     } else if (hitTop || hitBottom) {
       this.vy = -this.vy;
     }
+
   }
 
   paddleCollision(paddleOne, paddleTwo) {
     if (this.vx > 0) {
       //Detect collision on right side (player 2)
       let paddle = paddleTwo.coordinates(paddleTwo.x, paddleTwo.y, paddleTwo.width, paddleTwo.height);
-      let [leftX, rightX, topY, bottomY] = paddle;
+      let {
+        leftX,
+        topY,
+        bottomY
+      } = paddle;
 
       if (
-        this.x + this.radius >= leftX
-        && this.y >= topY
-        && this.y <= bottomY
+        this.x + this.radius >= leftX &&
+        this.y >= topY &&
+        this.y <= bottomY
       ) {
         this.vx = -this.vx;
       }
@@ -55,11 +72,15 @@ export default class Ball {
     } else {
       //Detect collision on left side (player 1)
       let paddle = paddleOne.coordinates(paddleOne.x, paddleOne.y, paddleOne.width, paddleOne.height);
-      let [leftX, rightX, topY, bottomY] = paddle;
+      let {
+        rightX,
+        topY,
+        bottomY
+      } = paddle;
       if (
-        this.x - this.radius <= rightX
-        && this.y >= topY
-        && this.y <= bottomY
+        this.x - this.radius <= rightX &&
+        this.y >= topY &&
+        this.y <= bottomY
 
       ) {
         this.vx = -this.vx;
@@ -68,11 +89,16 @@ export default class Ball {
     }
   }
 
+  goal(paddle) {
+    paddle.score++;
+    this.reset();
+  }
+
   render(svg, paddleOne, paddleTwo) {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
 
-    this.wallCollision();
+    this.wallCollision(paddleOne, paddleTwo);
     this.paddleCollision(paddleOne, paddleTwo);
 
     let circle = document.createElementNS(SVG_NS, 'circle');

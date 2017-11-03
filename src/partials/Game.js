@@ -3,6 +3,7 @@ import {SVG_NS, KEYS } from '../settings';
 import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
+import Score from './Score';
 
 export default class Game {
 
@@ -14,6 +15,9 @@ export default class Game {
 	
 		this.gameElement = document.getElementById(this.element);
 		this.board = new Board(this.width, this.height);
+
+		this.score1 = new Score(206, 30, 30);
+		this.score2 = new Score(286, 30, 30)
 
 	// ball Instantiator
 		this.ball = new Ball(this.ballRadius, this.width, this.height)
@@ -71,6 +75,8 @@ export default class Game {
 		this.paddleOne.render(svg);
 		this.paddleTwo.render(svg);
 		this.ball.render(svg, this.paddleOne, this.paddleTwo);
+		this.score1.render(svg, this.paddleOne.score);
+		this.score2.render(svg, this.paddleTwo.score);
 	}
 
 }
