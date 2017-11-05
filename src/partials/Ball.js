@@ -34,12 +34,6 @@ export default class Ball {
     const hitTop = this.y - this.radius <= 0;
     const hitBottom = this.y + this.radius >= this.boardHeight;
 
-    // if (hitLeft || hitRight) {
-    //   this.vx = -this.vx;
-    // } else if (hitTop || hitBottom) {
-    //   this.vy = -this.vy;
-    // }
-
     if (hitLeft) {
       this.direction = 1;
       this.goal(paddleTwo);
@@ -49,7 +43,6 @@ export default class Ball {
     } else if (hitTop || hitBottom) {
       this.vy = -this.vy;
     }
-
   }
 
   paddleCollision(paddleOne, paddleTwo) {
@@ -88,7 +81,6 @@ export default class Ball {
         this.vx = -this.vx;
         this.ping.play();
       }
-
     }
   }
 
@@ -96,7 +88,6 @@ export default class Ball {
     paddle.score++;
     this.reset();
   }
-
   render(svg, paddleOne, paddleTwo) {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;

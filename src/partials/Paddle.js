@@ -1,4 +1,4 @@
-import {SVG_NS} from '../settings'
+import {SVG_NS, KEYS} from '../settings'
 
 export default class Paddle {
 
@@ -22,6 +22,20 @@ export default class Paddle {
           break;
       }
     });
+
+  //Keyevent to make paddles larger
+    document.addEventListener('keydown', event => {
+      if ( event.key === KEYS.g ) {
+        this.height = this.height * 1.1
+      }
+    });
+  
+  //Keyevent to make paddles smaller
+    document.addEventListener('keydown', event => {
+      if ( event.key === KEYS.b ) {
+        this.height = this.height * 0.91
+      }
+    });
   }
 
   coordinates(x, y, width, height) {
@@ -40,7 +54,6 @@ export default class Paddle {
     this.y = Math.min(this.y + this.speed, this.boardHeight - this.height);
   }
 
-
   render(svg) {
     let rect = document.createElementNS(SVG_NS, 'rect');
     // rect.setAttributeNS(null, '')
@@ -51,5 +64,4 @@ export default class Paddle {
     rect.setAttributeNS(null, 'y', this.y);
     svg.appendChild(rect);
   }
-
 }
