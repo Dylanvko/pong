@@ -25,3 +25,7 @@ A basic pong game using SVGs.
 **Player 2:**
 * ▲ : up
 * ▼: down
+
+**Paddle Adjusters 1:**
+* g: make paddles larger
+* b: make paddles smaller
