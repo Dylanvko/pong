@@ -1,6 +1,4 @@
-import {
-  SVG_NS
-} from '../settings'
+import { SVG_NS } from '../settings'
 
 export default class Ball {
   constructor(radius, boardWidth, boardHeight) {
